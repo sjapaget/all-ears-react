@@ -4,10 +4,48 @@ export default function AddRounds(props) {
 
     const {
         currentScreen,
-        changeScreen
+        changeScreen,
+        setMatchId,
+        numRounds,
+        setNumRounds
     } = props;
 
-    const [numRounds, setNumRounds] = useState(3);
+    const handleClick = () => {
+        // retrieve users playing this match
+        const users = {
+            // user data to send to backed
+        }
+
+        const data = {
+            "match": {
+                "number_of_rounds": numRounds
+            },
+            "nicknames": [
+                "peq",
+                "sam",
+                "joe"
+            ]
+        }
+
+        fetch("http://localhost:3000/matches", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            // Set match id in state with response data
+            setMatchId(data.id)
+            changeScreen(currentScreen + 1)
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+    }
 
     return (
         <>
@@ -25,7 +63,7 @@ export default function AddRounds(props) {
             <label for="num-rounds">How many rounds do you want to play?</label>
 
             <button
-                onClick={() => changeScreen(currentScreen + 1)}
+                onClick={handleClick}
             >
                 Play {numRounds} Rounds
             </button>
