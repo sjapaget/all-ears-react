@@ -4,7 +4,7 @@ import WelcomeScreen from './components/screens/WelcomeScreen';
 import AddRounds from './components/screens/AddRoundsScreen';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState(2);
+  const [currentScreen, setCurrentScreen] = useState(0);
   const [matchId, setMatchId] = useState();
   const [numRounds, setNumRounds] = useState(3);
 
