@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import WelcomeScreen from './components/screens/WelcomeScreen';
+import PlayersScreen from './components/screens/PlayersScreen';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -9,7 +10,11 @@ function App() {
 
   return (
     <>
-      {currentScreen == 0 && <WelcomeScreen 
+      {currentScreen == 0 && <WelcomeScreen
+        currentScreen={currentScreen}
+        changeScreen={changeScreen}
+      />}
+      {currentScreen == 1 && <PlayersScreen
         currentScreen={currentScreen}
         changeScreen={changeScreen}
       />}
