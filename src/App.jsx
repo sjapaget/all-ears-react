@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import WelcomeScreen from './components/screens/WelcomeScreen';
+import PlayersScreen from './components/screens/PlayersScreen';
 import AddRounds from './components/screens/AddRoundsScreen';
 
 function App() {
@@ -14,7 +15,11 @@ function App() {
 
   return (
     <>
-      {currentScreen == 0 && <WelcomeScreen 
+      {currentScreen == 0 && <WelcomeScreen
+        currentScreen={currentScreen}
+        changeScreen={changeScreen}
+      />}
+      {currentScreen == 1 && <PlayersScreen
         currentScreen={currentScreen}
         changeScreen={changeScreen}
       />}
