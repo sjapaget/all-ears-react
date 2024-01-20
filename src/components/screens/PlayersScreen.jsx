@@ -3,7 +3,8 @@ import '../../PlayersScreen.css';
 export default function PlayersScreen(props) {
   const {
     currentScreen,
-    nextScreen
+    changeScreen,
+    setUserNicknames,
   } = props;
 
   const createPlayers = (e) => {
@@ -11,12 +12,10 @@ export default function PlayersScreen(props) {
     const users = buildData();
     const formattedUsers = { users };
     const url = "http://localhost:3000/users/";
-    console.log(formattedUsers);
     submitPlayers(formattedUsers, url);
   }
 
   const buildData = () => {
-    // Needed: {"users": [{"user": {"nickname": "peq"}}, {"user": {"nickname": "sam"}}]}
     const form = document.getElementById('playersForm');
     const data = new FormData(form);
     const users = []
@@ -34,12 +33,18 @@ export default function PlayersScreen(props) {
       method: "POST",
       body: JSON.stringify(users)
     })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      setUserNicknames(data.map((user) => user.nickname));
+      changeScreen(currentScreen + 1);
+    });
   }
 
-  const addPlayer = () => {
-
+  const addPlayer = (e) => {
+    e.preventDefault();
+    // TODO: add new player fields on click (limit = (3..10))
   }
 
   return (

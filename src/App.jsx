@@ -6,10 +6,12 @@ import AddRounds from './components/screens/AddRoundsScreen';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState(0);
+  const [userNicknames, setUserNicknames] = useState([]);
   const [matchId, setMatchId] = useState();
   const [numRounds, setNumRounds] = useState(3);
 
-  console.log(matchId)
+  // console.log(matchId)
+  console.log(userNicknames);
 
   const changeScreen = (nextScreen) => setCurrentScreen(nextScreen);
 
@@ -22,6 +24,7 @@ function App() {
       {currentScreen == 1 && <PlayersScreen
         currentScreen={currentScreen}
         changeScreen={changeScreen}
+        setUserNicknames={setUserNicknames}
       />}
 
       {currentScreen == 2 && <AddRounds
