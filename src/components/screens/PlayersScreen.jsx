@@ -12,10 +12,10 @@ export default function PlayersScreen(props) {
 
   const createPlayers = (e) => {
     e.preventDefault();
-    const users = buildData();
-    const formattedUsers = { users };
+    const nicknames = buildData();
+    const formattedNicknames = { nicknames };
     const url = "http://localhost:3000/users/";
-    submitPlayers(formattedUsers, url);
+    submitPlayers(formattedNicknames, url);
   }
 
   const buildData = () => {
@@ -28,13 +28,13 @@ export default function PlayersScreen(props) {
     return users;
   }
 
-  const submitPlayers = (users, url) => {
+  const submitPlayers = (nicknames, url) => {
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(users)
+      body: JSON.stringify(nicknames)
     })
     .then((response) => {
       return response.json();
@@ -42,6 +42,17 @@ export default function PlayersScreen(props) {
     .then((data) => {
       setUserNicknames(data.map((user) => user.nickname));
       changeScreen(currentScreen + 1);
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      highlightEmptyInputs();
+    });
+  }
+
+  const highlightEmptyInputs = () => {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach((input) => {
+      if(input.value.trim() === "") input.classList.add("empty");
     });
   }
 

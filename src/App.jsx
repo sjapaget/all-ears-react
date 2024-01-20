@@ -11,7 +11,7 @@ function App() {
   const [numRounds, setNumRounds] = useState(3);
 
   // console.log(matchId)
-  // console.log(userNicknames);
+  console.log(userNicknames);
 
   const changeScreen = (nextScreen) => setCurrentScreen(nextScreen);
 
