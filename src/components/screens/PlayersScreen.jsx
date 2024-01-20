@@ -10,14 +10,6 @@ export default function PlayersScreen(props) {
 
   const [numberOfInputs, setNumberOfInputs] = useState(3);
 
-  const inputs = () => {
-    const inputs = [];
-    for(let i = 1; i <= numberOfInputs; i++) {
-      inputs.push(<input type="text" name="user" key={i}/>);
-    }
-    return inputs
-  }
-
   const createPlayers = (e) => {
     e.preventDefault();
     const users = buildData();
@@ -65,10 +57,18 @@ export default function PlayersScreen(props) {
     <>
       <h1>Who's playing ?</h1>
       <form action="http://localhost:3000/users/" method="post" onSubmit={createPlayers} id="playersForm">
-        {inputs()}
+        <Inputs number={numberOfInputs} />
         <button onClick={addPlayer}>Add a player</button>
         <button type="submit">Next Step</button>
       </form>
     </>
   )
+}
+
+export function Inputs({ number }) {
+  const inputs = [];
+  for(let i = 1; i <= number; i++) {
+    inputs.push(<input type="text" name="user" key={i}/>);
+  }
+  return inputs;
 }
