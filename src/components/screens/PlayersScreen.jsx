@@ -53,12 +53,18 @@ export default function PlayersScreen(props) {
     // 3 - In form {inputs} (function sets input type=text name=user)
   }
 
+  const removePlayer = (e) => {
+    e.preventDefault();
+
+  }
+
   return (
     <>
       <h1>Who's playing ?</h1>
       <form action="http://localhost:3000/users/" method="post" onSubmit={createPlayers} id="playersForm">
         <Inputs number={numberOfInputs} />
-        <button onClick={addPlayer}>Add a player</button>
+        {numberOfInputs !== 10 && <button onClick={addPlayer}>Add a player</button> }
+        {numberOfInputs !== 3 && <button onClick={removePlayer}>Remove a player</button> }
         <button type="submit">Next Step</button>
       </form>
     </>
