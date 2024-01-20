@@ -47,15 +47,12 @@ export default function PlayersScreen(props) {
 
   const addPlayer = (e) => {
     e.preventDefault();
-    // TODO: add new player fields on click (limit = (3..10))
-    // 1 - state nbOfInputs / setNbo... => integer(3)
-    // 2 - addPlayer.onClick => increment nbOfInput => (so useState re-renders the DOM)
-    // 3 - In form {inputs} (function sets input type=text name=user)
+    setNumberOfInputs(numberOfInputs + 1);
   }
 
   const removePlayer = (e) => {
     e.preventDefault();
-
+    setNumberOfInputs(numberOfInputs - 1);
   }
 
   return (
