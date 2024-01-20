@@ -11,7 +11,7 @@ function App() {
   const [numRounds, setNumRounds] = useState(3);
 
   // console.log(matchId)
-  console.log(userNicknames);
+  // console.log(userNicknames);
 
   const changeScreen = (nextScreen) => setCurrentScreen(nextScreen);
 
@@ -21,6 +21,7 @@ function App() {
         currentScreen={currentScreen}
         changeScreen={changeScreen}
       />}
+      
       {currentScreen == 1 && <PlayersScreen
         currentScreen={currentScreen}
         changeScreen={changeScreen}
@@ -30,6 +31,7 @@ function App() {
       {currentScreen == 2 && <AddRounds
         currentScreen={currentScreen}
         changeScreen={changeScreen}
+        userNicknames={userNicknames}
         setMatchId={setMatchId}
         numRounds={numRounds}
         setNumRounds={setNumRounds}
