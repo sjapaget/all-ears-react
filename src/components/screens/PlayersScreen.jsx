@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../../PlayersScreen.css';
 
 export default function PlayersScreen(props) {
@@ -6,6 +7,16 @@ export default function PlayersScreen(props) {
     changeScreen,
     setUserNicknames,
   } = props;
+
+  const [numberOfInputs, setNumberOfInputs] = useState(3);
+
+  const inputs = () => {
+    const inputs = [];
+    for(let i = 1; i <= numberOfInputs; i++) {
+      inputs.push(<input type="text" name="user" key={i}/>);
+    }
+    return inputs
+  }
 
   const createPlayers = (e) => {
     e.preventDefault();
@@ -45,15 +56,16 @@ export default function PlayersScreen(props) {
   const addPlayer = (e) => {
     e.preventDefault();
     // TODO: add new player fields on click (limit = (3..10))
+    // 1 - state nbOfInputs / setNbo... => integer(3)
+    // 2 - addPlayer.onClick => increment nbOfInput => (so useState re-renders the DOM)
+    // 3 - In form {inputs} (function sets input type=text name=user)
   }
 
   return (
     <>
       <h1>Who's playing ?</h1>
       <form action="http://localhost:3000/users/" method="post" onSubmit={createPlayers} id="playersForm">
-        <input type="text" name="user"/>
-        <input type="text" name="user"/>
-        <input type="text" name="user"/>
+        {inputs()}
         <button onClick={addPlayer}>Add a player</button>
         <button type="submit">Next Step</button>
       </form>
