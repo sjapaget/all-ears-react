@@ -66,6 +66,14 @@ export default function PlayersScreen(props) {
     setNumberOfInputs(numberOfInputs - 1);
   }
 
+  function Inputs({ number }) {
+    const inputs = [];
+    for(let i = 1; i <= number; i++) {
+      inputs.push(<input type="text" name="user" key={i}/>);
+    }
+    return inputs;
+  }
+
   return (
     <>
       <h1>Who's playing ?</h1>
@@ -77,12 +85,4 @@ export default function PlayersScreen(props) {
       </form>
     </>
   )
-}
-
-export function Inputs({ number }) {
-  const inputs = [];
-  for(let i = 1; i <= number; i++) {
-    inputs.push(<input type="text" name="user" key={i}/>);
-  }
-  return inputs;
 }
