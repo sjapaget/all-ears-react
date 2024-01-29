@@ -8,3 +8,7 @@ form {
 input, button {
   margin-block: 1em;
 }
+
+input.empty {
+  border: 2px solid red;
+}

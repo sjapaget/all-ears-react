@@ -1,22 +1,24 @@
+import { useState } from 'react';
 import '../../PlayersScreen.css';
 
 export default function PlayersScreen(props) {
   const {
     currentScreen,
-    nextScreen
+    changeScreen,
+    setUserNicknames,
   } = props;
+
+  const [numberOfInputs, setNumberOfInputs] = useState(3);
 
   const createPlayers = (e) => {
     e.preventDefault();
-    const users = buildData();
-    const formattedUsers = { users };
+    const nicknames = buildData();
+    const formattedNicknames = { nicknames };
     const url = "http://localhost:3000/users/";
-    console.log(formattedUsers);
-    submitPlayers(formattedUsers, url);
+    submitPlayers(formattedNicknames, url);
   }
 
   const buildData = () => {
-    // Needed: {"users": [{"user": {"nickname": "peq"}}, {"user": {"nickname": "sam"}}]}
     const form = document.getElementById('playersForm');
     const data = new FormData(form);
     const users = []
@@ -26,30 +28,59 @@ export default function PlayersScreen(props) {
     return users;
   }
 
-  const submitPlayers = (users, url) => {
+  const submitPlayers = (nicknames, url) => {
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(users)
+      body: JSON.stringify(nicknames)
     })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      setUserNicknames(data.map((user) => user.nickname));
+      changeScreen(currentScreen + 1);
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      highlightEmptyInputs();
+    });
   }
 
-  const addPlayer = () => {
+  const highlightEmptyInputs = () => {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach((input) => {
+      if(input.value.trim() === "") input.classList.add("empty");
+    });
+  }
 
+  const addPlayer = (e) => {
+    e.preventDefault();
+    setNumberOfInputs(numberOfInputs + 1);
+  }
+
+  const removePlayer = (e) => {
+    e.preventDefault();
+    setNumberOfInputs(numberOfInputs - 1);
+  }
+
+  function Inputs({ number }) {
+    const inputs = [];
+    for(let i = 1; i <= number; i++) {
+      inputs.push(<input type="text" name="user" key={i}/>);
+    }
+    return inputs;
   }
 
   return (
     <>
       <h1>Who's playing ?</h1>
       <form action="http://localhost:3000/users/" method="post" onSubmit={createPlayers} id="playersForm">
-        <input type="text" name="user"/>
-        <input type="text" name="user"/>
-        <input type="text" name="user"/>
-        <button onClick={addPlayer}>Add a player</button>
+        <Inputs number={numberOfInputs} />
+        {numberOfInputs !== 10 && <button onClick={addPlayer}>Add a player</button> }
+        {numberOfInputs !== 3 && <button onClick={removePlayer}>Remove a player</button> }
         <button type="submit">Next Step</button>
       </form>
     </>
