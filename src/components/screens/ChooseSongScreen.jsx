@@ -114,6 +114,7 @@ export default function ChooseSongScreen(props) {
         songData={songData}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
+        setSongData={setSongData}
       />}
     </>
   )
