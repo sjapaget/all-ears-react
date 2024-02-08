@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function ChooseSongScreen(props) {
   const {
@@ -7,11 +7,31 @@ export default function ChooseSongScreen(props) {
   } = props;
 
   const [currentUser, setCurrentUser] = useState(0);
+  const [spotifyToken, setSpotifyToken] = useState('');
 
   const fetchSpotifySong = (e) => {
     e.preventDefault();
     console.log("In fetchSpotifySong");
   }
+
+  async function getSpotifyApiToken() {
+    const url = 'https://accounts.spotify.com/api/token';
+    let response = await fetch(url, {
+      method: 'POST',
+      body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_SPOTIFY_CLIENT_ID}&client_secret=${import.meta.env.VITE_SPOTIFY_CLIENT_SECRET}`,
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
+
+    response = await response.json();
+
+    setSpotifyToken(response.access_token);
+  }
+
+  useEffect(() => {
+    getSpotifyApiToken();
+  }, []);
 
   return (
     <>
