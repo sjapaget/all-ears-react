@@ -10,7 +10,7 @@ export default function ChooseSongScreen(props) {
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [songData, setSongData] = useState({});
-  
+
 
   async function fetchSpotifySong(e){
     e.preventDefault();
@@ -110,8 +110,10 @@ export default function ChooseSongScreen(props) {
         />
         <button type="submit">Search on Spotify</button>
       </form>
-      {Object.keys(songData) && <ConfirmSongSelection
+      {Object.keys(songData).length > 0 && <ConfirmSongSelection
         songData={songData}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
       />}
     </>
   )
