@@ -12,6 +12,10 @@ export default function ChooseSongScreen(props) {
   const fetchSpotifySong = (e) => {
     e.preventDefault();
     console.log("In fetchSpotifySong");
+    const songDetails = new FormData(e.currentTarget);
+    const songTitle = songDetails.get('song-title');
+    const artist = songDetails.get('artist');
+    const album = songDetails.get('album');
   }
 
   async function getSpotifyApiToken() {
