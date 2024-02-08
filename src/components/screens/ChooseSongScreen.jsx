@@ -8,6 +8,7 @@ export default function ChooseSongScreen(props) {
 
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
+  const [songIsDefined, setSongIsDefined] = useState(false);
 
   async function fetchSpotifySong(e){
     e.preventDefault();
@@ -39,6 +40,8 @@ export default function ChooseSongScreen(props) {
     console.log(trackName);
     console.log(albumName);
     console.log(artistName);
+
+    setSongIsDefined(true);
   }
 
   function getSongDetails(form){
@@ -101,6 +104,7 @@ export default function ChooseSongScreen(props) {
         />
         <button type="submit">Search on Spotify</button>
       </form>
+      {songIsDefined && <ConfirmSongSelection />}
     </>
   )
 }
