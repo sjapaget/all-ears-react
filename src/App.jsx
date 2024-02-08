@@ -40,6 +40,10 @@ function App() {
 
       {currentScreen == 3 && <RoundScreen
         totalNumberOfRounds={numRounds}
+        userNicknames={userNicknames}
+        matchId={matchId}
+        currentScreen={currentScreen}
+        changeScreen={changeScreen}
       />}
     </>
   )
