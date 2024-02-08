@@ -3,6 +3,7 @@ import './App.css'
 import WelcomeScreen from './components/screens/WelcomeScreen';
 import PlayersScreen from './components/screens/PlayersScreen';
 import AddRounds from './components/screens/AddRoundsScreen';
+import RoundScreen from './components/screens/RoundScreen';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -21,7 +22,7 @@ function App() {
         currentScreen={currentScreen}
         changeScreen={changeScreen}
       />}
-      
+
       {currentScreen == 1 && <PlayersScreen
         currentScreen={currentScreen}
         changeScreen={changeScreen}
@@ -35,6 +36,14 @@ function App() {
         setMatchId={setMatchId}
         numRounds={numRounds}
         setNumRounds={setNumRounds}
+      />}
+
+      {currentScreen == 3 && <RoundScreen
+        totalNumberOfRounds={numRounds}
+        userNicknames={userNicknames}
+        matchId={matchId}
+        currentScreen={currentScreen}
+        changeScreen={changeScreen}
       />}
     </>
   )
