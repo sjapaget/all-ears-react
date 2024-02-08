@@ -8,6 +8,7 @@ export default function PlayRandomSong(props) {
     setRoundStep
   } = props;
 
+  // This state will need to be moved to parent so it can be shared with other round components
   const [currentSong, setCurrentSong] = useState();
 
   useEffect(() => {
