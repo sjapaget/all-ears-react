@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 export default function ConfirmSongSelection(props) {
   const {
     songData,
@@ -7,8 +5,8 @@ export default function ConfirmSongSelection(props) {
     setCurrentUser,
     currentUser,
     setSongData,
-    songIds,
-    setSongIds,
+    chosenSongs,
+    setChosenSongs,
     setAllSongsArePicked
   } = props;
 
@@ -21,10 +19,10 @@ export default function ConfirmSongSelection(props) {
 
   function updateChooseSongScreen() {
     resetInputs();
-    setSongIds([
-      ...songIds,
+    setChosenSongs([
+      ...chosenSongs,
       {
-        "songId": songData.id,
+        "spotifyId": songData.id,
         "player": userNicknames[currentUser]
       }
     ]);

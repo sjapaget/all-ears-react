@@ -12,6 +12,7 @@ export default function RoundScreen(props) {
 
   const [roundNumber, setRoundNumber] = useState(1);
   const [roundStep, setRoundStep] = useState(1);
+  const [chosenSongs, setChosenSongs] = useState([]);
 
   return (
     <>
@@ -20,8 +21,10 @@ export default function RoundScreen(props) {
         roundNumber={roundNumber}
         roundStep={roundStep}
         setRoundStep={setRoundStep}
+        chosenSongs={chosenSongs}
+        setChosenSongs={setChosenSongs}
       />}
-      {2 == roundStep && <h1>Next screen</h1>}
+      {2 == roundStep && console.log(chosenSongs)}
     </>
   )
 }

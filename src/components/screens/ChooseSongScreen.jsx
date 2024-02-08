@@ -8,12 +8,13 @@ export default function ChooseSongScreen(props) {
     userNicknames,
     roundStep,
     setRoundStep,
+    chosenSongs,
+    setChosenSongs
   } = props;
 
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [songData, setSongData] = useState({});
-  const [songIds, setSongIds] = useState([]);
   const [allSongsArePicked, setAllSongsArePicked] = useState(false);
 
   useEffect(() => {
@@ -95,15 +96,15 @@ export default function ChooseSongScreen(props) {
       <h2>{userNicknames[currentUser]}, pick a song !</h2>
 
       <SongSearchForm fetchSpotifySong={fetchSpotifySong} />
-      
+
       {Object.keys(songData).length > 0 && <ConfirmSongSelection
         songData={songData}
         userNicknames={userNicknames}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         setSongData={setSongData}
-        songIds={songIds}
-        setSongIds={setSongIds}
+        chosenSongs={chosenSongs}
+        setChosenSongs={setChosenSongs}
         setAllSongsArePicked={setAllSongsArePicked}
       />}
     </>
