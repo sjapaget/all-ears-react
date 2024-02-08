@@ -12,20 +12,12 @@ export default function AddRounds(props) {
     } = props;
 
     const handleClick = () => {
-        // retrieve users playing this match
-        const users = {
-            // user data to send to backed
-        }
 
         const data = {
             "match": {
                 "number_of_rounds": numRounds
             },
-            "nicknames": [
-                "peq",
-                "sam",
-                "joe"
-            ]
+            "nicknames": userNicknames
         }
 
         fetch("http://localhost:3000/matches", {
