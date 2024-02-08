@@ -9,13 +9,45 @@ export default function ChooseSongScreen(props) {
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
 
-  const fetchSpotifySong = (e) => {
+  async function fetchSpotifySong(e){
     e.preventDefault();
     console.log("In fetchSpotifySong");
+
+    // Get song details from form and format the data
     const songDetails = new FormData(e.currentTarget);
-    const songTitle = songDetails.get('song-title');
-    const artist = songDetails.get('artist');
-    const album = songDetails.get('album');
+    let songTitle = songDetails.get('song-title').trim();
+    let artist = songDetails.get('artist').trim();
+    let album = songDetails.get('album').trim();
+
+    // Return if no title has been provided
+    if(!songTitle) return;
+
+    songTitle = encodeURIComponent(songTitle);
+    if(artist){
+      artist = "artist:" + encodeURIComponent(artist);
+    }
+    if(album){
+      album = "album:" + encodeURIComponent(album);
+    }
+
+    const url = `https://api.spotify.com/v1/search?q=track:${songTitle}%20${artist}%20${album}&type=track`;
+
+    const songSearch = await fetch(url, {
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${spotifyToken}`
+      }
+    });
+    const json = await songSearch.json();
+    // songId = json.tracks.items[0].id;
+
+    const trackName = json.tracks.items[0].name;
+    const albumName = json.tracks.items[0].album.name;
+    const artistName = json.tracks.items[0].artists[0].name;
+
+    console.log(trackName);
+    console.log(albumName);
+    console.log(artistName);
   }
 
   async function getSpotifyApiToken() {
