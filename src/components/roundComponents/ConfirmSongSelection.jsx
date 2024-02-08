@@ -19,26 +19,27 @@ export default function ConfirmSongSelection(props) {
     });
   }
 
+  function updateChooseSongScreen() {
+    resetInputs();
+    setSongIds([
+      ...songIds,
+      {
+        "songId": songData.id,
+        "player": userNicknames[currentUser]
+      }
+    ]);
+    setSongData({});
+    if(currentUser == userNicknames.length - 1){
+      setAllSongsArePicked(true);
+    } else {
+      setCurrentUser(currentUser + 1);
+    }
+  }
+
   return(
     <>
       <p>{songData.artistName} - {songData.trackName} ({songData.albumName})</p>
-      <button
-        onClick={() => {
-          setCurrentUser(currentUser + 1);
-          resetInputs();
-          setSongIds([
-            ...songIds,
-            {
-              "songId": songData.id,
-              "player": userNicknames[currentUser]
-            }
-          ])
-          setSongData({});
-          setAllSongsArePicked(true);
-        }}
-      >
-        Pick this song
-      </button>
+      <button onClick={() => { updateChooseSongScreen(); } }> Pick this song </button>
     </>
   )
 }
