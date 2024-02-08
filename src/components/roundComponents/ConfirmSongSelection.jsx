@@ -8,7 +8,8 @@ export default function ConfirmSongSelection(props) {
     currentUser,
     setSongData,
     songIds,
-    setSongIds
+    setSongIds,
+    setAllSongsArePicked
   } = props;
 
   const resetInputs = () => {
@@ -33,6 +34,7 @@ export default function ConfirmSongSelection(props) {
             }
           ])
           setSongData({});
+          setAllSongsArePicked(true);
         }}
       >
         Pick this song

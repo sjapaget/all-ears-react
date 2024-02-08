@@ -5,12 +5,23 @@ export default function ChooseSongScreen(props) {
   const {
     roundNumber,
     userNicknames,
+    roundStep,
+    setRoundStep,
   } = props;
 
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [songData, setSongData] = useState({});
   const [songIds, setSongIds] = useState([]);
+  const [allSongsArePicked, setAllSongsArePicked] = useState(false);
+
+  useEffect(() => {
+    getSpotifyApiToken();
+  }, []);
+
+  useEffect(() => {
+    if(allSongsArePicked) setRoundStep(roundStep + 1);
+  }, [allSongsArePicked, roundStep, setRoundStep]);
 
   async function fetchSpotifySong(e){
     e.preventDefault();
@@ -31,7 +42,6 @@ export default function ChooseSongScreen(props) {
       }
     });
     const json = await songSearch.json();
-    // songId = json.tracks.items[0].id;
 
     // Get song details from Spotify response
     const trackName = json.tracks.items[0].name;
@@ -77,9 +87,6 @@ export default function ChooseSongScreen(props) {
     setSpotifyToken(response.access_token);
   }
 
-  useEffect(() => {
-    getSpotifyApiToken();
-  }, []);
 
   return (
     <>
@@ -115,6 +122,7 @@ export default function ChooseSongScreen(props) {
         setSongData={setSongData}
         songIds={songIds}
         setSongIds={setSongIds}
+        setAllSongsArePicked={setAllSongsArePicked}
       />}
     </>
   )
