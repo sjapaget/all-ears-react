@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import ConfirmSongSelection from '../roundComponents/ConfirmSongSelection';
 
 export default function ChooseSongScreen(props) {
   const {
@@ -8,7 +9,8 @@ export default function ChooseSongScreen(props) {
 
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
-  const [songIsDefined, setSongIsDefined] = useState(false);
+  const [songData, setSongData] = useState({});
+  
 
   async function fetchSpotifySong(e){
     e.preventDefault();
@@ -41,7 +43,11 @@ export default function ChooseSongScreen(props) {
     console.log(albumName);
     console.log(artistName);
 
-    setSongIsDefined(true);
+    setSongData({
+      "trackName": trackName,
+      "albumName": albumName,
+      "artistName": artistName
+    })
   }
 
   function getSongDetails(form){
@@ -104,7 +110,9 @@ export default function ChooseSongScreen(props) {
         />
         <button type="submit">Search on Spotify</button>
       </form>
-      {songIsDefined && <ConfirmSongSelection />}
+      {Object.keys(songData) && <ConfirmSongSelection
+        songData={songData}
+      />}
     </>
   )
 }
