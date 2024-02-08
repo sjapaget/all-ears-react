@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react'
 export default function ConfirmSongSelection(props) {
   const {
     songData,
+    userNicknames,
     setCurrentUser,
     currentUser,
-    setSongData
+    setSongData,
+    songIds,
+    setSongIds
   } = props;
 
   const resetInputs = () => {
@@ -22,6 +25,13 @@ export default function ConfirmSongSelection(props) {
         onClick={() => {
           setCurrentUser(currentUser + 1);
           resetInputs();
+          setSongIds([
+            ...songIds,
+            {
+              "songId": songData.id,
+              "player": userNicknames[currentUser]
+            }
+          ])
           setSongData({});
         }}
       >

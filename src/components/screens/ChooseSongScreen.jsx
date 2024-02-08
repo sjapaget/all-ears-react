@@ -10,11 +10,10 @@ export default function ChooseSongScreen(props) {
   const [currentUser, setCurrentUser] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [songData, setSongData] = useState({});
-
+  const [songIds, setSongIds] = useState([]);
 
   async function fetchSpotifySong(e){
     e.preventDefault();
-    console.log("In fetchSpotifySong");
 
     // Get song details from form and format the data
     const songDetails = getSongDetails(e.currentTarget);
@@ -38,15 +37,13 @@ export default function ChooseSongScreen(props) {
     const trackName = json.tracks.items[0].name;
     const albumName = json.tracks.items[0].album.name;
     const artistName = json.tracks.items[0].artists[0].name;
-
-    console.log(trackName);
-    console.log(albumName);
-    console.log(artistName);
+    const songId = json.tracks.items[0].id;
 
     setSongData({
       "trackName": trackName,
       "albumName": albumName,
-      "artistName": artistName
+      "artistName": artistName,
+      "id": songId
     })
   }
 
@@ -112,9 +109,12 @@ export default function ChooseSongScreen(props) {
       </form>
       {Object.keys(songData).length > 0 && <ConfirmSongSelection
         songData={songData}
+        userNicknames={userNicknames}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         setSongData={setSongData}
+        songIds={songIds}
+        setSongIds={setSongIds}
       />}
     </>
   )
