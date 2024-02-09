@@ -25,16 +25,29 @@ export default function ChooseSongScreen(props) {
     if(allSongsArePicked) setRoundStep(roundStep + 1);
   }, [allSongsArePicked, roundStep, setRoundStep]);
 
+
   async function fetchSpotifySong(e){
     e.preventDefault();
-
-    // Get song details from form and format the data
-    const songDetails = getSongDetails(e.currentTarget);
+    // Fetch song details in form and format the data for API call
+    const form = e.currentTarget;
+    const songDetails = getSongDetails(form);
 
     // Return if no title has been provided
     if(!songDetails.title) return;
 
-    // Fetch song from spotify
+    // Fetch song from spotify and retrieve its data from the response
+    const spotifyResponse = await fetchSpotify(songDetails);
+    const spotifyTrack = getSpotifyTrackDetails(spotifyResponse);
+
+    setSongData({
+      "trackName": spotifyTrack.track,
+      "albumName": spotifyTrack.album,
+      "artistName": spotifyTrack.artist,
+      "id": spotifyTrack.id
+    })
+  }
+
+  async function fetchSpotify(songDetails) {
     const url = `https://api.spotify.com/v1/search?q=track:${songDetails.title}%20${songDetails.artist}%20${songDetails.album}&type=track`;
 
     const songSearch = await fetch(url, {
@@ -44,19 +57,7 @@ export default function ChooseSongScreen(props) {
       }
     });
     const json = await songSearch.json();
-
-    // Get song details from Spotify response
-    const trackName = json.tracks.items[0].name;
-    const albumName = json.tracks.items[0].album.name;
-    const artistName = json.tracks.items[0].artists[0].name;
-    const songId = json.tracks.items[0].id;
-
-    setSongData({
-      "trackName": trackName,
-      "albumName": albumName,
-      "artistName": artistName,
-      "id": songId
-    })
+    return json;
   }
 
   function getSongDetails(form){
@@ -64,13 +65,36 @@ export default function ChooseSongScreen(props) {
     const title = formData.get('song-title').trim();
     let artist = formData.get('artist').trim();
     let album = formData.get('album').trim();
-    artist = artist ? `artist:${encodeURIComponent(artist)}` : artist
-    album = album ? `album:${encodeURIComponent(album)}` : album
 
+    return apiFormattedSongDetails(title, artist, album);
+  }
+
+  function apiFormattedSongDetails(title, artist, album) {
+    // Formats provided details into SpotifyAPI filters
+    if(artist){
+      artist = `artist:${encodeURIComponent(artist)}`;
+    }
+    if(album){
+      album = `album:${encodeURIComponent(album)}`
+    }
     return {
       "title": encodeURIComponent(title),
       "artist": artist,
       "album": album
+    }
+  }
+
+  function getSpotifyTrackDetails(spotifyResponse){
+    const track = spotifyResponse.tracks.items[0].name;
+    const album = spotifyResponse.tracks.items[0].album.name;
+    const artist = spotifyResponse.tracks.items[0].artists[0].name;
+    const id = spotifyResponse.tracks.items[0].id;
+
+    return {
+      "track": track,
+      "album": album,
+      "artist": artist,
+      "id": id
     }
   }
 
