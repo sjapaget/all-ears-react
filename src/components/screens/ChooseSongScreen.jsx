@@ -37,6 +37,8 @@ export default function ChooseSongScreen(props) {
 
     // Fetch song from spotify and retrieve its data from the response
     const spotifyResponse = await fetchSpotify(songDetails);
+    // Return if response contains no result
+    if(spotifyResponse.tracks.items.length == 0) return;
     const spotifyTrack = getSpotifyTrackDetails(spotifyResponse);
 
     setSongData({
