@@ -2,8 +2,8 @@ export default function ConfirmSongSelection(props) {
   const {
     songData,
     userNicknames,
-    setCurrentUser,
-    currentUser,
+    setUserIndex,
+    userIndex,
     setSongData,
     chosenSongs,
     setChosenSongs,
@@ -23,14 +23,14 @@ export default function ConfirmSongSelection(props) {
       ...chosenSongs,
       {
         "spotifyId": songData.id,
-        "player": userNicknames[currentUser]
+        "player": userNicknames[userIndex]
       }
     ]);
     setSongData({});
-    if(currentUser == userNicknames.length - 1){
+    if(userIndex == userNicknames.length - 1){
       setAllSongsArePicked(true);
     } else {
-      setCurrentUser(currentUser + 1);
+      setUserIndex(userIndex + 1);
     }
   }
 
