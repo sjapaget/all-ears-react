@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
 
 export default function PlayRandomSong(props) {
   const {
@@ -8,25 +7,37 @@ export default function PlayRandomSong(props) {
     setRoundStep
   } = props;
 
-  // This state will need to be moved to parent so it can be shared with other round components
-  const [currentSong, setCurrentSong] = useState();
+  const [currentSong, setCurrentSong] = useState(null);
 
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * (playableSongs.length))
-    setCurrentSong(playableSongs[randomIndex]);
-    setPlayableSongs(playableSongs.slice(randomIndex, 1));
-  }, []);
+    function selectRandomSong() {
+      const randomIndex = Math.floor(Math.random() * playableSongs.length);
+      const selectedSong = playableSongs[randomIndex];
 
+      const updatedSongs = playableSongs.filter((_, index) => index !== randomIndex);
+      setPlayableSongs(updatedSongs);
+
+      return selectedSong;
+    }
+    setCurrentSong(selectRandomSong());
+  }, []);
 
   return (
     <>
-      {/* {spotify player} */}
-      <p>The song is {currentSong}</p>
+      <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+      <div id="embed-iframe"></div>
+
+      {currentSong && currentSong.spotifyId && <iframe
+        title="Spotify Web Player"
+        src={`https://open.spotify.com/embed/track/${currentSong.spotifyId}`}
+        allow={true}
+      />}
+
       <button
         onClick={() => setRoundStep(2)}
       >
         Next
       </button>
     </>
-  )
+  );
 }
