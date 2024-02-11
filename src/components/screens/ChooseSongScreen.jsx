@@ -9,7 +9,8 @@ export default function ChooseSongScreen(props) {
     roundStep,
     setRoundStep,
     chosenSongs,
-    setChosenSongs
+    setChosenSongs,
+    setPlayableSongs
   } = props;
 
   const [userIndex, setUserIndex] = useState(0);
@@ -131,6 +132,7 @@ export default function ChooseSongScreen(props) {
         setSongData={setSongData}
         chosenSongs={chosenSongs}
         setChosenSongs={setChosenSongs}
+        setPlayableSongs={setPlayableSongs}
         setAllSongsArePicked={setAllSongsArePicked}
       />}
     </>

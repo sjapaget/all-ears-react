@@ -7,6 +7,7 @@ export default function ConfirmSongSelection(props) {
     setSongData,
     chosenSongs,
     setChosenSongs,
+    setPlayableSongs,
     setAllSongsArePicked
   } = props;
 
@@ -28,6 +29,7 @@ export default function ConfirmSongSelection(props) {
     ]);
     setSongData({});
     if(userIndex == userNicknames.length - 1){
+      setPlayableSongs(chosenSongs);
       setAllSongsArePicked(true);
     } else {
       setUserIndex(userIndex + 1);
