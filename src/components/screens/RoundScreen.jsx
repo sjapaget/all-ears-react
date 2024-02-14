@@ -22,13 +22,21 @@ export default function RoundScreen(props) {
   const [playableSongs, setPlayableSongs] = useState(chosenSongs);
   const [votes, setVotes] = useState([]);
 
-  const [roundDetails, setRoundDetails] = useState({});
+  const [questionData, setQuestionData] = useState({});
 
-  // Add roundData state with: .number, .spotifySongId, .chosenBy, .votes(=> votes state array)
-  // Initialize roundData at step 2
-  // Update it with votes when all players have voted at step 4
+  // Replace roundDetails by questionData with .index, .spotifySongId, .chosen_by, .votes(-> array)
+  // Add roundDetails
+  // Initialize it with: .number, .questions(-> array)
+  // Add questionDetails to roundDetails when all players have voted (step 4)
 
-  console.log(roundDetails);
+  // Add matchDetails
+  // Initialize it with: .matchId, .players(-> array [ {nickname, score} ])
+  // Compute scores from roundDetails and add them to matchDetails when a round is finished
+
+  // Loop rounds until all rounds are finished
+  // log results (matchDetails)
+
+  console.log(questionData);
 
   return (
     <>
@@ -48,7 +56,7 @@ export default function RoundScreen(props) {
         setPlayableSongs={setPlayableSongs}
         chosenSongs={chosenSongs}
         setRoundStep={setRoundStep}
-        setRoundDetails={setRoundDetails}
+        setQuestionData={setQuestionData}
         roundNumber={roundNumber}
       />}
        {3 == roundStep && <DiscussionTime
@@ -61,8 +69,8 @@ export default function RoundScreen(props) {
         setUserIndex={setUserIndex}
         votes={votes}
         setVotes={setVotes}
-        roundDetails={roundDetails}
-        setRoundDetails={setRoundDetails}
+        questionData={questionData}
+        setQuestionData={setQuestionData}
       />}
     </>
   )

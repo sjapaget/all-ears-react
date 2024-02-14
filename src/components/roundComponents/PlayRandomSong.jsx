@@ -6,7 +6,7 @@ export default function PlayRandomSong(props) {
     setPlayableSongs,
     chosenSongs,
     setRoundStep,
-    setRoundDetails,
+    setQuestionData,
     roundNumber
   } = props;
 
@@ -25,9 +25,9 @@ export default function PlayRandomSong(props) {
     setCurrentSong(selectRandomSong());
   }, []);
 
-  function newRoundDetails() {
+  function newQuestionData() {
     const songChosenBy = findWhoChose(currentSong);
-    setRoundDetails({
+    setQuestionData({
       "number": roundNumber,
       "spotifySongId": currentSong.spotifyId,
       "chosen_by": songChosenBy,
@@ -40,7 +40,7 @@ export default function PlayRandomSong(props) {
   }
 
   const prepareNextStep = () => {
-    newRoundDetails();
+    newQuestionData();
     setRoundStep(3);
   }
 
