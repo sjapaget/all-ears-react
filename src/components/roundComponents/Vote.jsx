@@ -10,6 +10,19 @@ export default function Vote(props) {
         setVotes
     } = props;
 
+    function Buttons({ number }) {
+      const buttons = [];
+      for(let i = 0; i < number; i++) {
+        buttons.push(<button onClick={() => playerVotes(i)} key={i}>{userNicknames[i]}</button>);
+      }
+      return buttons;
+    }
+
+    function playerVotes(index) {
+      console.log("in playerVotes");
+      // TODO
+    }
+
     return (
         <>
             {/*
@@ -23,6 +36,9 @@ export default function Vote(props) {
                 5. Store result of vote to be revealed later & restart roundsteps from
                 PlayRandomSong component.
             */}
+          <h2>{userNicknames[userIndex]}, your time to vote</h2>
+          <p>timer placeholder</p>
+          <Buttons number={userNicknames.length}/>
         </>
     )
   }
