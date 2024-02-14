@@ -10,6 +10,17 @@ export default function Vote(props) {
         setVotes
     } = props;
 
+    const [countDown, setCountDown] = useState(10);
+
+    console.log(votes);
+
+    useEffect(() => {
+      countDown > 0 && setTimeout(() => {
+        setCountDown(countDown - 1)
+      }, 1000);
+      countDown == 0 && playerVotes(-1)
+    }, [countDown]);
+
     function Buttons({ number }) {
       const buttons = [];
       for(let i = 0; i < number; i++) {
@@ -20,7 +31,24 @@ export default function Vote(props) {
 
     function playerVotes(index) {
       console.log("in playerVotes");
-      // TODO
+      if(index === -1) {
+        // create empty vote for current player & store it
+        setVotes([
+          ...votes,
+          {
+            "player": userNicknames[userIndex],
+            "voted_for": null
+          }
+        ]);
+        // update userIdex
+        if(userIndex == userNicknames.length - 1) {
+          return;
+        } else {
+          setUserIndex(userIndex + 1);
+          // reset countDown
+          setCountDown(10);
+        }
+      }
     }
 
     return (
@@ -37,7 +65,7 @@ export default function Vote(props) {
                 PlayRandomSong component.
             */}
           <h2>{userNicknames[userIndex]}, your time to vote</h2>
-          <p>timer placeholder</p>
+          <p>{countDown}</p>
           <Buttons number={userNicknames.length}/>
         </>
     )
