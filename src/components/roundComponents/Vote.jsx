@@ -14,17 +14,40 @@ export default function Vote(props) {
 
     useEffect(() => {
       const timer = countDown > 0 && setInterval(() => {
-        setCountDown(prevCountDown => prevCountDown - 1);
+        decreaseCountDown();
       }, 1000);
 
-      if (countDown === 0) {
-        playerVotes(-1);
+      if (countDown == 0) {
+        playerVotesBlank();
       }
       return () => clearInterval(timer);
     }, [countDown]);
 
-    function playerVotes(index) {
-      const playerVotedFor = index >= 0 ? userNicknames[index] : null
+    const playerVotes = (index) => {
+      const playerVotedFor = index >= 0 ? userNicknames[index] : null;
+      savePlayerVote(playerVotedFor);
+      handleUserTurns();
+    }
+
+    function handleUserTurns() {
+      if(isLastUser()) {
+        playNextRandomSong();
+        resetUserIndex();
+      } else {
+        nextUserTurn();
+      }
+      resetCountDown();
+    }
+
+    // Helper functions for better readability
+    const resetUserIndex = () => setUserIndex(0);
+    const nextUserTurn = () => setUserIndex(userIndex + 1);
+    const resetCountDown = () => setCountDown(10);
+    const decreaseCountDown = () => setCountDown(prevCountDown => prevCountDown - 1);
+    const isLastUser = () => userIndex == userNicknames.length - 1;
+    const playerVotesBlank = () => playerVotes(-1);
+    const playNextRandomSong = () => setRoundStep(2);
+    const savePlayerVote = (playerVotedFor) => {
       setVotes([
         ...votes,
         {
@@ -32,19 +55,9 @@ export default function Vote(props) {
           "voted_for": playerVotedFor
         }
       ]);
-      updateUserIndex();
     }
 
-    const updateUserIndex = () => {
-      if(userIndex == userNicknames.length - 1) {
-        setRoundStep(2);
-        setUserIndex(0);
-      } else {
-        setUserIndex(userIndex + 1);
-      }
-      setCountDown(10);
-    }
-
+    // Buttons Component
     function Buttons({ number }) {
       const buttons = [];
       for(let i = 0; i < number; i++) {
