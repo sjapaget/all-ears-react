@@ -12,8 +12,6 @@ export default function Vote(props) {
 
     const [countDown, setCountDown] = useState(10);
 
-    console.log(votes);
-
     useEffect(() => {
       countDown > 0 && setTimeout(() => {
         setCountDown(countDown - 1)
@@ -30,24 +28,23 @@ export default function Vote(props) {
     }
 
     function playerVotes(index) {
-      console.log("in playerVotes");
-      if(index === -1) {
-        // create empty vote for current player & store it
-        setVotes([
-          ...votes,
-          {
-            "player": userNicknames[userIndex],
-            "voted_for": null
-          }
-        ]);
-        // update userIdex
-        if(userIndex == userNicknames.length - 1) {
-          return;
-        } else {
-          setUserIndex(userIndex + 1);
-          // reset countDown
-          setCountDown(10);
+      const playerVotedFor = index >= 0 ? userNicknames[index] : null
+      setVotes([
+        ...votes,
+        {
+          "player": userNicknames[userIndex],
+          "voted_for": playerVotedFor
         }
+      ]);
+      updateUserIndex();
+    }
+
+    const updateUserIndex = () => {
+      if(userIndex == userNicknames.length - 1) {
+        setRoundStep(2);
+      } else {
+        setUserIndex(userIndex + 1);
+        setCountDown(10);
       }
     }
 

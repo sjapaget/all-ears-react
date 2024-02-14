@@ -22,6 +22,7 @@ export default function RoundScreen(props) {
   const [playableSongs, setPlayableSongs] = useState(chosenSongs);
   const [votes, setVotes] = useState([]);
 
+  console.log(votes);
 
   return (
     <>
