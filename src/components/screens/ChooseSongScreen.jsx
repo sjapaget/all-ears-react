@@ -10,10 +10,11 @@ export default function ChooseSongScreen(props) {
     setRoundStep,
     chosenSongs,
     setChosenSongs,
-    setPlayableSongs
+    setPlayableSongs,
+    userIndex,
+    setUserIndex
   } = props;
 
-  const [userIndex, setUserIndex] = useState(0);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [songData, setSongData] = useState({});
   const [allSongsArePicked, setAllSongsArePicked] = useState(false);
