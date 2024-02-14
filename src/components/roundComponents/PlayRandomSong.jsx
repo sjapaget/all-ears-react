@@ -30,11 +30,11 @@ export default function PlayRandomSong(props) {
       {currentSong && currentSong.spotifyId && <iframe
         title="Spotify Web Player"
         src={`https://open.spotify.com/embed/track/${currentSong.spotifyId}`}
-        allow={true}
+        allow="true"
       />}
 
       <button
-        onClick={() => setRoundStep(2)}
+        onClick={() => setRoundStep(3)}
       >
         Next
       </button>

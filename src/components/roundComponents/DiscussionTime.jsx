@@ -9,7 +9,7 @@ export default function DiscussionTime(props) {
 
     useEffect(() => {
         countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
-        0 == countDown && setRoundStep(3);
+        0 == countDown && setRoundStep(4);
     }, [countDown, setRoundStep]);
 
     return (
@@ -19,7 +19,7 @@ export default function DiscussionTime(props) {
             <p>Time left {countDown}</p>
 
             <button
-                onClick={() => setRoundStep(3)}
+                onClick={() => setRoundStep(4)}
             >
                 Continue
             </button>
