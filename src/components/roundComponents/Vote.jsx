@@ -13,10 +13,14 @@ export default function Vote(props) {
     const [countDown, setCountDown] = useState(10);
 
     useEffect(() => {
-      countDown > 0 && setTimeout(() => {
-        setCountDown(countDown - 1)
+      const timer = countDown > 0 && setInterval(() => {
+        setCountDown(prevCountDown => prevCountDown - 1);
       }, 1000);
-      countDown == 0 && playerVotes(-1)
+
+      if (countDown === 0) {
+        playerVotes(-1);
+      }
+      return () => clearInterval(timer);
     }, [countDown]);
 
     function playerVotes(index) {
@@ -37,8 +41,8 @@ export default function Vote(props) {
         setUserIndex(0);
       } else {
         setUserIndex(userIndex + 1);
-        setCountDown(10);
       }
+      setCountDown(10);
     }
 
     function Buttons({ number }) {
