@@ -3,6 +3,7 @@ import { useState } from 'react';
 import PlayRandomSong from '../roundComponents/PlayRandomSong';
 import DiscussionTime from '../roundComponents/DiscussionTime';
 import ChooseSongScreen from './ChooseSongScreen';
+import Vote from '../roundComponents/Vote';
 
 export default function RoundScreen(props) {
   const {
@@ -15,11 +16,11 @@ export default function RoundScreen(props) {
 
   const [roundNumber, setRoundNumber] = useState(1);
   const [roundStep, setRoundStep] = useState(1);
-  
+
   const [chosenSongs, setChosenSongs] = useState([]);
   const [playableSongs, setPlayableSongs] = useState(chosenSongs);
 
- 
+
   console.log(playableSongs);
   return (
     <>
@@ -39,6 +40,14 @@ export default function RoundScreen(props) {
       />}
        {3 == roundStep && <DiscussionTime
         setRoundStep={setRoundStep}
+      />}
+      {4 == roundStep && <Vote
+        setRoundStep={setRoundStep}
+        userNicknames={userNicknames}
+        userIndex={userIndex}
+        setUserIndex={setUserIndex}
+        votes={votes}
+        setVotes={setVotes}
       />}
     </>
   )
