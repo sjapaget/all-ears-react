@@ -28,7 +28,7 @@ export default function RoundScreen(props) {
   // Initialize roundData at step 2
   // Update it with votes when all players have voted at step 4
 
-  console.log(votes);
+  console.log(roundDetails);
 
   return (
     <>
@@ -46,6 +46,7 @@ export default function RoundScreen(props) {
       {2 == roundStep && <PlayRandomSong
         playableSongs={playableSongs}
         setPlayableSongs={setPlayableSongs}
+        chosenSongs={chosenSongs}
         setRoundStep={setRoundStep}
         setRoundDetails={setRoundDetails}
         roundNumber={roundNumber}

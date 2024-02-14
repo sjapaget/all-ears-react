@@ -4,6 +4,7 @@ export default function PlayRandomSong(props) {
   const {
     playableSongs,
     setPlayableSongs,
+    chosenSongs,
     setRoundStep,
     setRoundDetails,
     roundNumber
@@ -24,9 +25,24 @@ export default function PlayRandomSong(props) {
     setCurrentSong(selectRandomSong());
   }, []);
 
-  useEffect(() => {
-    // initialize roundDetails with .number, .spotifySongId, .chosenBy
-  }, [currentSong]);
+  function newRoundDetails() {
+    const songChosenBy = findWhoChose(currentSong);
+    setRoundDetails({
+      "number": roundNumber,
+      "spotifySongId": currentSong.spotifyId,
+      "chosen_by": songChosenBy,
+    });
+  }
+
+  const findWhoChose = (songToFind) => {
+    const chosenSong = chosenSongs.find(chosenSong => chosenSong.spotifyId == songToFind.spotifyId);
+    return chosenSong.player;
+  }
+
+  const prepareNextStep = () => {
+    newRoundDetails();
+    setRoundStep(3);
+  }
 
   return (
     <>
@@ -40,7 +56,7 @@ export default function PlayRandomSong(props) {
       />}
 
       <button
-        onClick={() => setRoundStep(3)}
+        onClick={() => prepareNextStep()}
       >
         Next
       </button>
