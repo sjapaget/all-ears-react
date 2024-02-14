@@ -61,6 +61,8 @@ export default function RoundScreen(props) {
         setUserIndex={setUserIndex}
         votes={votes}
         setVotes={setVotes}
+        roundDetails={roundDetails}
+        setRoundDetails={setRoundDetails}
       />}
     </>
   )

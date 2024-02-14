@@ -7,7 +7,9 @@ export default function Vote(props) {
         userIndex,
         setUserIndex,
         votes,
-        setVotes
+        setVotes,
+        roundDetails,
+        setRoundDetails
     } = props;
 
     const [countDown, setCountDown] = useState(10);
@@ -31,12 +33,20 @@ export default function Vote(props) {
 
     function handleUserTurns() {
       if(isLastUser()) {
+        saveVotesInRoundDetails();
         playNextRandomSong();
         resetUserIndex();
       } else {
         nextUserTurn();
       }
       resetCountDown();
+    }
+
+    const saveVotesInRoundDetails = () => {
+      setRoundDetails(prevRoundDetails => ({
+        ...prevRoundDetails,
+        "votes": votes
+      }));
     }
 
     // Helper functions for better readability
