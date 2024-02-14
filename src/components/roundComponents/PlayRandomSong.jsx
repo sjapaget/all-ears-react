@@ -4,7 +4,9 @@ export default function PlayRandomSong(props) {
   const {
     playableSongs,
     setPlayableSongs,
-    setRoundStep
+    setRoundStep,
+    setRoundDetails,
+    roundNumber
   } = props;
 
   const [currentSong, setCurrentSong] = useState(null);
@@ -21,6 +23,10 @@ export default function PlayRandomSong(props) {
     }
     setCurrentSong(selectRandomSong());
   }, []);
+
+  useEffect(() => {
+    // initialize roundDetails with .number, .spotifySongId, .chosenBy
+  }, [currentSong]);
 
   return (
     <>
