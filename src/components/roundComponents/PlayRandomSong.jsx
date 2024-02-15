@@ -28,9 +28,9 @@ export default function PlayRandomSong(props) {
   function newQuestionData() {
     const songChosenBy = findWhoChose(currentSong);
     setQuestionData({
-      "number": roundNumber,
+      "roundNumber": roundNumber,
       "spotifySongId": currentSong.spotifyId,
-      "chosen_by": songChosenBy,
+      "chosenBy": songChosenBy,
     });
   }
 

@@ -9,7 +9,9 @@ export default function Vote(props) {
         votes,
         setVotes,
         questionData,
-        setQuestionData
+        setQuestionData,
+        scores,
+        setScores
     } = props;
 
     const [countDown, setCountDown] = useState(10);
@@ -34,6 +36,8 @@ export default function Vote(props) {
     function handleUserTurns() {
       if(isLastUser()) {
         saveVotesInQuestionData();
+        // addQuestionDataToRoundDetails();
+        computeScoresFromQuestionData();
         playNextRandomSong();
         resetUserIndex();
       } else {
@@ -49,6 +53,50 @@ export default function Vote(props) {
       }));
     }
 
+    function computeScoresFromQuestionData(){
+      const chooser = questionData.chosenBy;
+      const finders = [];
+      votes.forEach((ballot) => {
+        if(ballot.player == chooser) return;
+
+        if(ballot.votedFor == chooser){
+          finders.push(ballot.player);
+        }
+      });
+      if(finders.length == 0) return;
+
+      else if(finders.length == 1) {
+        add3PointsTo(chooser, finders[0]);
+      }
+      else {
+        add1PointTo(finders);
+      }
+    }
+
+    function add3PointsTo(chooser, finder){
+      const newScores = [];
+      scores.forEach((player) => {
+        if(player.nickname == chooser || player.nickname == finder){
+          newScores.push({ "nickname": player.nickname, "score": player.score + 3 });
+        } else {
+          newScores.push(player);
+        }
+      });
+      setScores(newScores);
+    }
+
+    function add1PointTo(finders) {
+      const newScores = [];
+      scores.forEach((player) => {
+        if(finders.includes(player.nickname)) {
+          newScores.push({ "nickname": player.nickname, "score": player.score + 1 });
+        } else {
+          newScores.push(player);
+        }
+      });
+      setScores(newScores);
+    }
+
     // Helper functions for better readability
     const resetUserIndex = () => setUserIndex(0);
     const nextUserTurn = () => setUserIndex(userIndex + 1);
@@ -62,7 +110,7 @@ export default function Vote(props) {
         ...votes,
         {
           "player": userNicknames[userIndex],
-          "voted_for": playerVotedFor
+          "votedFor": playerVotedFor
         }
       ]);
     }

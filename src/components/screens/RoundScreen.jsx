@@ -14,6 +14,7 @@ export default function RoundScreen(props) {
     changeScreen,
   } = props;
 
+
   const [roundNumber, setRoundNumber] = useState(1);
   const [roundStep, setRoundStep] = useState(1);
   const [userIndex, setUserIndex] = useState(0);
@@ -23,6 +24,18 @@ export default function RoundScreen(props) {
   const [votes, setVotes] = useState([]);
 
   const [questionData, setQuestionData] = useState({});
+  const [scores, setScores] = useState(setInitialScores());
+
+  function setInitialScores() {
+    const initialScores = [];
+    userNicknames.forEach((nickname) => {
+      initialScores.push({
+        "nickname": nickname,
+        "score": 0
+      });
+    });
+    return initialScores;
+  }
 
   // Replace roundDetails by questionData with .index, .spotifySongId, .chosen_by, .votes(-> array)
   // Add roundDetails
@@ -36,7 +49,7 @@ export default function RoundScreen(props) {
   // Loop rounds until all rounds are finished
   // log results (matchDetails)
 
-  console.log(questionData);
+  console.log(scores);
 
   return (
     <>
@@ -71,6 +84,8 @@ export default function RoundScreen(props) {
         setVotes={setVotes}
         questionData={questionData}
         setQuestionData={setQuestionData}
+        scores={scores}
+        setScores={setScores}
       />}
     </>
   )
