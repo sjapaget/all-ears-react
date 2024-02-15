@@ -4,6 +4,7 @@ import PlayRandomSong from '../roundComponents/PlayRandomSong';
 import DiscussionTime from '../roundComponents/DiscussionTime';
 import ChooseSongScreen from './ChooseSongScreen';
 import Vote from '../roundComponents/Vote';
+import RoundRecap from '../roundComponents/RoundRecap';
 
 export default function RoundScreen(props) {
   const {
@@ -83,6 +84,11 @@ export default function RoundScreen(props) {
         setScores={setScores}
         numberOfSongsToPlay={numberOfSongsToPlay}
         setRoundNumber={setRoundNumber}
+      />}
+      {5 == roundStep && <RoundRecap
+        roundNumber={roundNumber}
+        scores={scores}
+        setRoundStep={setRoundStep}
       />}
     </>
   )

@@ -22,7 +22,7 @@ export default function PlayRandomSong(props) {
 
       return selectedSong;
     }
-    setCurrentSong(selectRandomSong());
+    setCurrentSong(selectRandomSong())
   }, []);
 
   function newQuestionData() {

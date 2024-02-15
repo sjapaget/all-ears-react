@@ -40,7 +40,7 @@ export default function Vote(props) {
         saveVotesInQuestionData();
         computeScoresFromQuestionData();
         if(numberOfSongsToPlay == 0) {
-          startNextRound();
+          showRoundRecap();
         } else {
           playNextRandomSong();
           resetUserIndex();
@@ -110,10 +110,7 @@ export default function Vote(props) {
     const isLastUser = () => userIndex == userNicknames.length - 1;
     const playerVotesBlank = () => playerVotes(-1);
     const playNextRandomSong = () => setRoundStep(2);
-    const startNextRound = () => {
-      setRoundNumber(prevRoundNumber => prevRoundNumber + 1);
-      setRoundStep(1);
-    }
+    const showRoundRecap = () => setRoundStep(5);
     const savePlayerVote = (playerVotedFor) => {
       setVotes([
         ...votes,
