@@ -11,7 +11,9 @@ export default function Vote(props) {
         questionData,
         setQuestionData,
         scores,
-        setScores
+        setScores,
+        numberOfSongsToPlay,
+        setRoundNumber
     } = props;
 
     const [countDown, setCountDown] = useState(10);
@@ -36,10 +38,13 @@ export default function Vote(props) {
     function handleUserTurns() {
       if(isLastUser()) {
         saveVotesInQuestionData();
-        // addQuestionDataToRoundDetails();
         computeScoresFromQuestionData();
-        playNextRandomSong();
-        resetUserIndex();
+        if(numberOfSongsToPlay == 0) {
+          startNextRound();
+        } else {
+          playNextRandomSong();
+          resetUserIndex();
+        }
       } else {
         nextUserTurn();
       }
@@ -105,6 +110,10 @@ export default function Vote(props) {
     const isLastUser = () => userIndex == userNicknames.length - 1;
     const playerVotesBlank = () => playerVotes(-1);
     const playNextRandomSong = () => setRoundStep(2);
+    const startNextRound = () => {
+      setRoundNumber(prevRoundNumber => prevRoundNumber + 1);
+      setRoundStep(1);
+    }
     const savePlayerVote = (playerVotedFor) => {
       setVotes([
         ...votes,

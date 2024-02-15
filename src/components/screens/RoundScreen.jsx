@@ -37,19 +37,14 @@ export default function RoundScreen(props) {
     return initialScores;
   }
 
-  // Replace roundDetails by questionData with .index, .spotifySongId, .chosen_by, .votes(-> array)
-  // Add roundDetails
-  // Initialize it with: .number, .questions(-> array)
-  // Add questionDetails to roundDetails when all players have voted (step 4)
+  const numberOfSongsToPlay = playableSongs.length;
 
-  // Add matchDetails
-  // Initialize it with: .matchId, .players(-> array [ {nickname, score} ])
-  // Compute scores from roundDetails and add them to matchDetails when a round is finished
-
-  // Loop rounds until all rounds are finished
-  // log results (matchDetails)
-
-  console.log(scores);
+  // console.log(scores);
+  // loop rounds:
+  // if playableSongs est empty (allSongs were played)
+    // next round (roundNumber += 1)
+    // go to roundRecap (with current scores!)
+  // if roundNumber == totalNumberOfRounds -> go to MatchResultsScreen(to create)
 
   return (
     <>
@@ -86,6 +81,8 @@ export default function RoundScreen(props) {
         setQuestionData={setQuestionData}
         scores={scores}
         setScores={setScores}
+        numberOfSongsToPlay={numberOfSongsToPlay}
+        setRoundNumber={setRoundNumber}
       />}
     </>
   )
