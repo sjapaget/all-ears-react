@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ScoreTable from '../utilities/ScoreTable';
 
 export default function RoundRecap(props) {
   const {
@@ -9,15 +10,6 @@ export default function RoundRecap(props) {
     setRoundStep,
     setChosenSongs
   } = props;
-
-  function ScoreTable({ scores }) {
-    const rows = [];
-    for(const player of scores) {
-      const row = <div key={player.nickname}><p>{player.nickname}</p><p>{player.score}</p></div>
-      rows.push(row);
-    }
-    return <div>{rows}</div>
-  }
 
   function startNextRound() {
     if(roundNumber < totalNumberOfRounds) {
