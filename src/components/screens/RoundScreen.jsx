@@ -40,13 +40,6 @@ export default function RoundScreen(props) {
 
   const numberOfSongsToPlay = playableSongs.length;
 
-  // console.log(scores);
-  // loop rounds:
-  // if playableSongs est empty (allSongs were played)
-    // next round (roundNumber += 1)
-    // go to roundRecap (with current scores!)
-  // if roundNumber == totalNumberOfRounds -> go to MatchResultsScreen(to create)
-
   return (
     <>
       {1 == roundStep && <ChooseSongScreen
