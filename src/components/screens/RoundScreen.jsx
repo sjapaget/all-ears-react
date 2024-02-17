@@ -13,6 +13,8 @@ export default function RoundScreen(props) {
     matchId,
     currentScreen,
     changeScreen,
+    scores,
+    setScores
   } = props;
 
 
@@ -25,18 +27,6 @@ export default function RoundScreen(props) {
   const [votes, setVotes] = useState([]);
 
   const [questionData, setQuestionData] = useState({});
-  const [scores, setScores] = useState(setInitialScores());
-
-  function setInitialScores() {
-    const initialScores = [];
-    userNicknames.forEach((nickname) => {
-      initialScores.push({
-        "nickname": nickname,
-        "score": 0
-      });
-    });
-    return initialScores;
-  }
 
   const numberOfSongsToPlay = playableSongs.length;
 
