@@ -87,8 +87,11 @@ export default function RoundScreen(props) {
       />}
       {5 == roundStep && <RoundRecap
         roundNumber={roundNumber}
+        setRoundNumber={setRoundNumber}
+        totalNumberOfRounds={totalNumberOfRounds}
         scores={scores}
         setRoundStep={setRoundStep}
+        setChosenSongs={setChosenSongs}
       />}
     </>
   )

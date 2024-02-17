@@ -3,8 +3,11 @@ import { useState } from 'react';
 export default function RoundRecap(props) {
   const {
     roundNumber,
+    setRoundNumber,
+    totalNumberOfRounds,
     scores,
-    setRoundStep
+    setRoundStep,
+    setChosenSongs
   } = props;
 
   function ScoreTable({ scores }) {
@@ -17,7 +20,14 @@ export default function RoundRecap(props) {
   }
 
   function startNextRound() {
-    setRoundStep(1);
+    if(roundNumber < totalNumberOfRounds) {
+      setRoundStep(1);
+      setRoundNumber(roundNumber + 1);
+    } else {
+      // -> Match finished: go to match recap
+      console.log("MATCH FINISHED !");
+    }
+    setChosenSongs([]);
   }
 
   return(
