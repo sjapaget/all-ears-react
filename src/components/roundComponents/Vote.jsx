@@ -30,36 +30,26 @@ export default function Vote(props) {
     }, [countDown]);
 
     useEffect(() => {
-      console.log("In VOTES useEffect");
-      if(votes.length == userNicknames.length) {
-        console.log("-> all players have voted");
-        console.log("Votes = ", votes);
-        saveVotesInQuestionData();
-        computeScores();
-        resetUserIndex(); // rename to -> switchToFirstUser()
-        resetVotes();
-        if(numberOfSongsToPlay == 0) {
-          showRoundRecap();
-        } else {
-          playNextRandomSong();
-        }
-      } else {
-        console.log("-> missing votes: exiting");
+      if(allPlayersHaveVoted()) {
+        handleEndOfTurn();
       }
     }, [votes]);
 
-    const playerVotes = (index) => {
-      const playerVotedFor = index >= 0 ? userNicknames[index] : null;
-      savePlayerVote(playerVotedFor);
-      handleUserTurns();
+
+    function handleEndOfTurn(){
+      saveVotesInQuestionData();
+      computeScores();
+      resetUserIndex();
+      resetVotes();
+      nextRoundOrNextSong();
     }
 
-    function handleUserTurns() {
-      nextUserTurn();
-      resetCountDown();
+    const nextRoundOrNextSong = () => {
+      allSongsWerePlayed() ? showRoundRecap() : playNextRandomSong();
     }
 
     const saveVotesInQuestionData = () => {
+      // Added this function in case we later want to save rounds details in db
       setQuestionData(prevQuestionData => ({
         ...prevQuestionData,
         "votes": votes
@@ -67,38 +57,34 @@ export default function Vote(props) {
     }
 
     function computeScores(){
-      console.log("In computeScores");
       const chooser = questionData.chosenBy;
-      const finders = [];
-      console.log("ALL VOTES");
-      console.log(votes);
-      console.log("VOTES:");
-      votes.forEach((ballot) => {
-        console.log(`${ballot.player} voted for: ${ballot.votedFor}`);
-        if(ballot.player == chooser) return;
+      const finders = getPlayersWhoVotedFor(chooser);
+      if(multiplePlayersGuessed(finders)){
+        addPointsToPlayers(1, finders)
+      } else if(onePlayerGuessed(finders)) {
+        const winners = [finders[0], chooser];
+        addPointsToPlayers(3, winners);
+      } else {
+        scoresUnchanged();
+      }
+    }
 
-        if(ballot.votedFor == chooser){
+    function getPlayersWhoVotedFor(chooser){
+      const finders = [];
+      const guesserVotes = removeChooserFromVotes(chooser);
+      guesserVotes.forEach((ballot) => {
+        if(votedForChooser(ballot, chooser)){
           finders.push(ballot.player);
         }
       });
-      console.log(`FINDERS: ${finders.join(', ')}`);
-      if(finders.length == 0) {
-        setScores(scores);
-      }
-      else if(finders.length == 1) {
-        add3PointsTo(chooser, finders[0]);
-      }
-      else {
-        add1PointTo(finders);
-      }
+      return finders;
     }
 
-    function add3PointsTo(chooser, finder){
+    function addPointsToPlayers(points, winners) {
       const newScores = [];
-      console.log(`ADDING 3pts to: ${chooser}, ${finder}`);
       scores.forEach((player) => {
-        if(player.nickname == chooser || player.nickname == finder){
-          newScores.push({ "nickname": player.nickname, "score": player.score + 3 });
+        if(winners.includes(player.nickname)){
+          newScores.push({ "nickname": player.nickname, "score": player.score + points });
         } else {
           newScores.push(player);
         }
@@ -106,29 +92,40 @@ export default function Vote(props) {
       setScores(newScores);
     }
 
-    function add1PointTo(finders) {
-      const newScores = [];
-      console.log(`ADDING 1pt to: ${finders.join(', ')}`);
-      scores.forEach((player) => {
-        if(finders.includes(player.nickname)) {
-          newScores.push({ "nickname": player.nickname, "score": player.score + 1 });
-        } else {
-          newScores.push(player);
-        }
-      });
-      setScores(newScores);
+    // Handler
+
+    const playerVotes = (index) => {
+      const playerVotedFor = index >= 0 ? userNicknames[index] : null;
+      savePlayerVote(playerVotedFor);
+      nextUserTurn();
     }
 
     // Helper functions for better readability
+
     const resetUserIndex = () => setUserIndex(0);
-    const nextUserTurn = () => setUserIndex(userIndex + 1);
+    const incrementUserIndex = () => setUserIndex(userIndex + 1);
+
+    const nextUserTurn = () => {
+      incrementUserIndex();
+      resetCountDown();
+    }
+
     const resetCountDown = () => setCountDown(10);
     const decreaseCountDown = () => setCountDown(prevCountDown => prevCountDown - 1);
-    // const isLastUser = () => userIndex == userNicknames.length - 1;
-    const playerVotesBlank = () => playerVotes(-1);
+
+    const allSongsWerePlayed = () => numberOfSongsToPlay == 0;
     const playNextRandomSong = () => setRoundStep(2);
     const showRoundRecap = () => setRoundStep(5);
+
+    const multiplePlayersGuessed = (finders) => finders.length > 1;
+    const onePlayerGuessed = (finders) => finders.length == 1;
+    const votedForChooser = (ballot, chooser) => ballot.votedFor == chooser;
+    const scoresUnchanged = () => setScores(scores);
+
     const resetVotes = () => setVotes([]);
+    const playerVotesBlank = () => playerVotes(-1);
+    const allPlayersHaveVoted = () => votes.length == userNicknames.length;
+    const removeChooserFromVotes = (chooser) => votes.filter(ballot => ballot.player != chooser);
     const savePlayerVote = (playerVotedFor) => {
       setVotes([
         ...votes,
