@@ -63,6 +63,7 @@ function App() {
       />}
       {currentScreen == 4 && <MatchRecapScreen
         scores={scores}
+        setScores={setScores}
         setCurrentScreen={setCurrentScreen}
       />}
     </>

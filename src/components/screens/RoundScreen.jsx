@@ -75,6 +75,8 @@ export default function RoundScreen(props) {
         scores={scores}
         setRoundStep={setRoundStep}
         setChosenSongs={setChosenSongs}
+        currentScreen={currentScreen}
+        changeScreen={changeScreen}
       />}
     </>
   )
